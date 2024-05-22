@@ -124,7 +124,7 @@ export const logout = (req, res) => {
 export const addTask = async(req, res) => {
   try {
     const {title, description} = req.body;
-    console.log(title,description);
+    // console.log(title,description);
     if (!title || !description){
       return res.status(400).json({success: false,message: "Please enter a title and description"});
     }
