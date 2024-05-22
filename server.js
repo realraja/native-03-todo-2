@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { app } from "./app.js";
+import { app } from "./functions/api.js";
 import { connectDB } from "./config/database.js";
 import cloudinary from 'cloudinary'
 
