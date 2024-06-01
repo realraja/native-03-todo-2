@@ -36,6 +36,8 @@ dummy_data:[],
     {
       title: "String",
       description: "String",
+      sound: "String",
+      avatar: "String",
       completed: Boolean,
       createdAt: Date,
       createdDate:[],
