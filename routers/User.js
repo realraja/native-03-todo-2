@@ -24,6 +24,7 @@ router.route("/login").post(login);
 router.route("/logout").get(logout);
 
 router.route("/addtask").post(isAuthenticated , addTask);
+router.route("/newaddtask").post(isAuthenticated , addTask);
 router.route("/removetask/:taskId").delete(isAuthenticated , removeTask);
 router.route("/updatetask/:taskId").get(isAuthenticated , updateTask);
 router.route("/task/:taskId?").delete(isAuthenticated , removeTask).get(isAuthenticated , updateTask);
