@@ -124,17 +124,44 @@ export const logout = (req, res) => {
 export const addTask = async(req, res) => {
   try {
     const {title, description} = req.body;
-    // console.log(title,description);
     if (!title || !description){
       return res.status(400).json({success: false,message: "Please enter a title and description"});
     }
+    let avatarUrl = 'https://pics.craiyon.com/2023-11-27/fsbE-KagQAei9TVo3n-zLg.webp';
+    let soundUrl = 'https://res.cloudinary.com/dwc3gwskl/video/upload/v1716786373/ncevl5jxbcgyvj8pe5kj.mp3';
+    // console.log(title,description);
+
+    if(req.files){
+      const {avatar,sound} = req.files; 
+// console.log(avatar,'sound===>',sound);
+    if(avatar){
+      const cloud_data = await cloudinary.v2.uploader.upload(avatar.tempFilePath,{
+        folder: 'native_todoApp_task'
+      })
+      avatarUrl = cloud_data.secure_url;
+    }
+    if(sound){
+      const cloud_data = await cloudinary.v2.uploader.upload(sound.tempFilePath,{
+        folder: 'native_todoApp_task',
+        resource_type: "video"
+      })
+      // console.log(cloud_data,soundUrl);
+      soundUrl = cloud_data.secure_url;
+      fs.rmSync("./tmp", { recursive: true });
+    }
+    }
+    
+    
+
+    
 
     const user = await User.findById(req.user._id);
-    user.tasks.push({title,description,completed:false,createdAt:new Date(Date.now()),createdDate:dateArray});
+    user.tasks.push({title,description,avatar:avatarUrl,sound:soundUrl,completed:false,createdAt:new Date(Date.now()),createdDate:dateArray});
 
     user.save();
     return res.status(200).json({success: true,message:"Your task has been created successfully"});
   } catch (error) {
+    console.log(error);
     res.status(500).json({success: false,message:"error in adding task"});
   }
 };
